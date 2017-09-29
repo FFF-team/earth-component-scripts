@@ -23,7 +23,7 @@ const publicUrl = '';
 const env = getClientEnvironment(publicUrl);
 
 // import filenames config
-const fileNames = require(path.resolve('config/filenames')).dev;
+// const fileNames = require(path.resolve('config/filenames')).dev;
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
