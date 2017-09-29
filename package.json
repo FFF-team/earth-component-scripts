@@ -1,9 +1,9 @@
 {
   "name": "earth-component-scripts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "earth for component script",
   "bin": {
-    "earth-scripts": "./index.js"
+    "earth-component-scripts": "./index.js"
   },
   "repository": {
     "type": "git",
