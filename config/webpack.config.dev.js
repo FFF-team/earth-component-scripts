@@ -92,6 +92,7 @@ module.exports = {
         extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
         alias: {
             scss: path.resolve('scss_mixin/scss/'),
+            scss_mixin: path.resolve('scss_mixin/'),
         },
         plugins: [
             // Prevents users from importing files from outside of src/ (or node_modules/).
