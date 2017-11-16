@@ -23,7 +23,7 @@ var emptyDir = function(fileUrl){
             fs.unlinkSync(fileUrl+'/'+file);
         }
     });
-}
+};
 
 //mkdir lib
 function fsExistsSync(path) {

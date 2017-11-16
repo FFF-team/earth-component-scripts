@@ -1,18 +1,18 @@
 {
   "name": "earth-component-scripts",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "earth for component script",
   "bin": {
     "earth-component-scripts": "./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FFF-team/earth-scripts.git"
+    "url": "git+https://github.com/FFF-team/earth-component-scripts.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/FFF-team/earth-scripts/issues"
+    "url": "https://github.com/FFF-team/earth-component-scripts/issues"
   },
   "dependencies": {
     "autoprefixer": "7.1.2",
@@ -57,7 +57,7 @@
     "webpack-manifest-plugin": "1.2.1",
     "whatwg-fetch": "2.0.3"
   },
-  "homepage": "https://github.com/FFF-team/earth-scripts#readme",
-  "_from": "earth-scripts@0.1.5",
-  "_resolved": "http://registry.npm.taobao.org/earth-scripts/download/earth-scripts-0.1.5.tgz"
+  "homepage": "https://github.com/FFF-team/earth-component-scripts#readme",
+  "_from": "earth-component-scripts@0.1.6",
+  "_resolved": "http://registry.npm.taobao.org/earth-component-scripts/download/earth-component-scripts-0.1.6.tgz"
 }
