@@ -1,6 +1,6 @@
 {
   "name": "earth-component-scripts",
-  "version": "0.1.8",
+  "version": "1.0.0",
   "description": "earth for component script",
   "bin": {
     "earth-component-scripts": "./index.js"
