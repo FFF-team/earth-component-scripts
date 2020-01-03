@@ -89,7 +89,7 @@ module.exports = {
         // https://github.com/facebookincubator/create-react-app/issues/290
         // `web` extension prefixes have been added for better support
         // for React Native Web.
-        extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+        extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx', '.ts', '.tsx'],
         alias: {
             scss: path.resolve('scss_mixin/scss/'),
             scss_mixin: path.resolve('scss_mixin/'),
@@ -113,7 +113,7 @@ module.exports = {
             // First, run the linter.
             // It's important to do this before Babel processes the JS.
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 enforce: 'pre',
                 use: [
                     {
@@ -154,6 +154,14 @@ module.exports = {
                             // It enables caching results in ./node_modules/.cache/babel-loader/
                             // directory for faster rebuilds.
                             cacheDirectory: true,
+                        },
+                    },
+                    {
+                        test: /\.(ts|tsx)$/,
+                        include: [paths.appSrc, paths.componentIndexJs],
+                        loader: require.resolve('ts-loader'),
+                        options: {
+                            transpileOnly: true
                         },
                     },
                     // "postcss" loader applies autoprefixer to our CSS.

@@ -11,7 +11,7 @@ process.env.BABEL_ENV = 'development';
 
 var LIB_PATH = 'lib';
 var taskLibDir = 'src';
-
+var exportSuffix = 'js';
 
 var emptyDir = function(fileUrl){
     var files = fs.readdirSync(fileUrl);//读取该文件夹
@@ -45,7 +45,7 @@ if(!fsExistsSync(LIB_PATH)){
 var taskFiles = [];
 var hasFolderTip = false;
 fs.readdirSync(taskLibDir).forEach(function (taskConfigFile) {
-    if (/\.js$/.test(taskConfigFile)) {
+    if (/\.js|ts|tsx$/.test(taskConfigFile)) {
         var taskFile = path.join(taskLibDir, taskConfigFile);
         taskFiles.push(taskFile);
     } else {
@@ -65,27 +65,31 @@ fs.readdirSync(taskLibDir).forEach(function (taskConfigFile) {
 if(hasFolderTip){
     return;
 }
-
 taskFiles.forEach(function(taskFile){
-    babel.transformFile(taskFile, {code: true, "presets": ['babel-preset-env', 'babel-preset-react-app', 'stage-0'], 'plugins': ["add-module-exports"]}, function(err, result){
+    babel.transformFile(taskFile, {
+                code: true, 
+                presets: ['babel-preset-env', 'babel-preset-react-app', 'stage-0'], 
+                plugins: ["add-module-exports"]
+            }, function(err, result){
         if(err){
             console.log(err)
             return ;
         }
 
-        if (/\.js$/.test(taskFile)) {
+        if (/\.js|ts|tsx$/.test(taskFile)) {
 
-            var taskFileFilter = taskFile.match(/\/(.*.js)$/);
-            if(!taskFileFilter) { taskFileFilter = taskFile.match(/\\(.*.js)$/); }
+            var taskFileFilter = taskFile.match(/\/(.*.js|ts|tsx)$/);
+            if(!taskFileFilter) { taskFileFilter = taskFile.match(/\\(.*.js|ts|tsx)$/); }
             if(taskFileFilter && taskFileFilter[1]){
                 taskFile = taskFileFilter[1];
             }
-
-            console.log(taskFile);
-
         }
+        
+        const exportFileName = path.parse((taskFile || '')).name + '.' + exportSuffix;
 
-        fs.writeFileSync(LIB_PATH + '/' + taskFile, result.code, { encoding: 'utf-8' });
+        console.log(`${taskFile} --> ${LIB_PATH + '/' + exportFileName}`);
+
+        fs.writeFileSync(LIB_PATH + '/' + exportFileName, result.code, { encoding: 'utf-8' });
     });
 });
 
@@ -113,6 +117,7 @@ function copyScss(fileUrl){
 
     //copy scss文件
     waitCopyFiles.forEach(function(file){
+        console.log(`${'src/' + file} --> ${LIB_PATH + '/' + file}`);
         var scssFile = fs.readFileSync('src/' + file, 'utf-8');
         fs.writeFileSync(LIB_PATH + '/' + file, scssFile, { encoding: 'utf-8' });
     });
