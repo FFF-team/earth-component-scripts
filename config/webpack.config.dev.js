@@ -29,9 +29,12 @@ const env = getClientEnvironment(publicUrl);
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
 module.exports = {
+    mode: 'development',
+    target: 'web',
     // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
     // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
     devtool: 'cheap-module-source-map',
+
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     // The first two entry points enable "hot" CSS and auto-refreshes for JS.
@@ -50,7 +53,6 @@ module.exports = {
         // We ship a few polyfills by default:
         require.resolve(path.resolve('config/polyfills')),
         // Errors should be considered fatal in development
-        require.resolve('react-error-overlay'),
         // Finally, this is your app's code:
         paths.appIndexJs,
         // We include the app code last so that if there is a runtime error during
@@ -89,7 +91,7 @@ module.exports = {
         // https://github.com/facebookincubator/create-react-app/issues/290
         // `web` extension prefixes have been added for better support
         // for React Native Web.
-        extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+        extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx', '.ts', '.tsx'],
         alias: {
             scss: path.resolve('scss_mixin/scss/'),
             scss_mixin: path.resolve('scss_mixin/'),
@@ -113,18 +115,16 @@ module.exports = {
             // First, run the linter.
             // It's important to do this before Babel processes the JS.
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 enforce: 'pre',
-                use: [
-                    {
-                        options: {
-                            formatter: eslintFormatter,
-                            eslintPath: require.resolve('eslint'),
+                use: [{
+                    options: {
+                        formatter: eslintFormatter,
+                        eslintPath: require.resolve('eslint'),
 
-                        },
-                        loader: require.resolve('eslint-loader'),
                     },
-                ],
+                    loader: require.resolve('eslint-loader'),
+                }, ],
                 include: [paths.appSrc, paths.componentIndexJs],
             },
             {
@@ -145,11 +145,26 @@ module.exports = {
                     },
                     // Process JS with Babel.
                     {
-                        test: /\.(js|jsx)$/,
+                        test: /\.(js|jsx|ts|tsx)$/,
                         include: [paths.appSrc, paths.componentIndexJs],
                         loader: require.resolve('babel-loader'),
                         options: {
 
+                            customize: require.resolve(
+                                'babel-preset-react-app/webpack-overrides'
+                            ),
+                            // @remove-on-eject-begin
+                            //   babelrc: false,
+                            // configFile: false,
+                            presets: [
+                                require.resolve('@babel/preset-env'),
+                                require.resolve('@babel/preset-react'),
+                                require.resolve('@babel/preset-typescript')
+                            ],
+                            plugins: [
+                                require.resolve('@babel/plugin-proposal-class-properties'),
+                                require.resolve("babel-plugin-add-module-exports")
+                            ],
                             // This is a feature of `babel-loader` for webpack (not Babel itself).
                             // It enables caching results in ./node_modules/.cache/babel-loader/
                             // directory for faster rebuilds.
@@ -212,7 +227,7 @@ module.exports = {
                                     plugins: () => [
                                         require('postcss-flexbugs-fixes'),
                                         autoprefixer({
-                                            browsers: [
+                                            overrideBrowserslist: [
                                                 '>1%',
                                                 'last 0 versions',
                                                 'Firefox ESR',
@@ -257,7 +272,7 @@ module.exports = {
         // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
         // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
         // In development, this will be an empty string.
-        new InterpolateHtmlPlugin(env.raw),
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
         // Generates an `index.html` file with the <script> injected.
         new HtmlWebpackPlugin({
             inject: true,

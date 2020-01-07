@@ -54,6 +54,7 @@ module.exports = {
     componentIndexJs: resolveApp('./src'),
     yarnLockFile: resolveApp('yarn.lock'),
     testsSetup: resolveApp('demo/setupTests.js'),
+    proxySetup: resolveApp('mock/setupProxy.js'),
     appNodeModules: resolveApp('node_modules'),
     publicUrl: getPublicUrl(resolveApp('package.json')),
     // servedPath: getServedPath(resolveApp('package.json')),
