@@ -6,7 +6,7 @@ var babel = require('@babel/core');
 var path = require('path');
 var fs = require('fs');
 
-process.env.BABEL_ENV = 'development';
+process.env.BABEL_ENV = 'production';
 
 var LIB_PATH = 'lib';
 var taskLibDir = 'src';
@@ -70,8 +70,8 @@ if (hasFolderTip) {
 taskFiles.forEach(function (taskFile) {
     babel.transformFile(taskFile, {
         code: true,
-        "presets": ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-        'plugins': ['@babel/plugin-proposal-class-properties', "add-module-exports"]
+        "presets": ['@babel/preset-env', ['react-app', { helpers: false, absoluteRuntime: false }]],
+        'plugins': ["add-module-exports"]
     }, function (err, result) {
         if (err) {
             console.log(err)

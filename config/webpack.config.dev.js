@@ -149,7 +149,6 @@ module.exports = {
                         include: [paths.appSrc, paths.componentIndexJs],
                         loader: require.resolve('babel-loader'),
                         options: {
-
                             customize: require.resolve(
                                 'babel-preset-react-app/webpack-overrides'
                             ),
@@ -157,12 +156,9 @@ module.exports = {
                             //   babelrc: false,
                             // configFile: false,
                             presets: [
-                                require.resolve('@babel/preset-env'),
-                                require.resolve('@babel/preset-react'),
-                                require.resolve('@babel/preset-typescript')
+                                require.resolve('babel-preset-react-app'),
                             ],
                             plugins: [
-                                require.resolve('@babel/plugin-proposal-class-properties'),
                                 require.resolve("babel-plugin-add-module-exports")
                             ],
                             // This is a feature of `babel-loader` for webpack (not Babel itself).
